@@ -13,8 +13,8 @@ const url = 'https://pokeapi.co/api/v2/pokemon/';
 
 
 const getPokemon = async (id) => {
-    const responde = await fetch(url + id);
-    const data = await responde.json();
+    const responde = await fetch(url + id)
+    const data = await responde.json() 
     return data;
 };
 
@@ -26,12 +26,24 @@ const showEmptyError = () => {
         <h1> ¡ Ingrese un Número ! </h1>
     </div>` ;
 }
+const showError = () => {
+    return main.innerHTML = 
+    `
+    <div class="card-conteiner">
+    <img src="./src/img/catch.png" >
+        <h1> ¡ No Existe ese Pokémon ! </h1>
+    </div>` ;
+}
+const changeUnits = (value) => {
+    return value / 10
+}
 const createCardPokemon = (pokemon) => {
-    const type = pokemon.types.map( (tipo) => tipo.type.name);
+
+    const type = pokemon.types.map( (tipo) => tipo.type.name).join(" / ");
 
     const img = 
     pokemon.sprites.other.dream_world.front_default || 
-    pokemon.sprites.other.home.front_default;
+    pokemon.sprites.other.home.front_default 
 
     main.innerHTML = `
     <section class="card-conteiner">
@@ -43,25 +55,26 @@ const createCardPokemon = (pokemon) => {
         <h2> Tipo: </h2>
         <span>${type}</span>
         <h2> Altura: </h2>
-        <span>${pokemon.height}</span>
+        <span>${changeUnits(pokemon.height)} Cm</span>
         <h2> Peso: </h2>
-        <span>${pokemon.weight}</span>
+        <span>${changeUnits(pokemon.weight)} Kg</span>
     </section>
     `
 }
-
 const searchPokemon = async (e) => {
     e.preventDefault();
+
     const idValue = $input.value;
 
+    const poke = await getPokemon(idValue)
+    .catch( () => {showError(),$form.reset() } )
+ 
     if(!idValue){
         showEmptyError()
         return
     }
-
-    const poke = await getPokemon(idValue)
+    
     createCardPokemon(poke)
-    console.log(poke)
     $form.reset()
 };
 const init = () => {$form.addEventListener('submit', searchPokemon)} ;
