@@ -27,6 +27,7 @@ form.append(input, btn);
 header.append(logoContent,form);
 content.appendChild(header);
 
+// Creacion de la Card
 const main = document.createElement('main');
 main.className = 'results-container';
 

@@ -1,46 +1,15 @@
-/*
-👉 Crear un input de tipo number ,un botón y un contenedor vacío tal como hicimos en las entregas anteriores.
-
-👉 Con el número que se ponga, hacer una llamada a la pokeapi y renderizar una card con los datos del Pokémon encontrado. Lo mínimo que deberá tener la card es el nombre, su tipo principal (pueden intentar poner todos) , su altura y peso (expresada en metros y kilogramos, tendrán que dividir el alto y peso que les llegue por 10), y una de sus imágenes.
-
-👉 En caso de que no se encuentre ningún pokemon, renderizar un mensaje de error. En caso de que no se ingrese un número, renderizar otro mensaje de error acorde.
-
-*/
 const $form = document.getElementById('form')
 const $input = document.getElementById('input')
 const $card = document.createElement('section')
 const url = 'https://pokeapi.co/api/v2/pokemon/';
-
 
 const getPokemon = async (id) => {
     const responde = await fetch(url + id)
     const data = await responde.json() 
     return data;
 };
-
-const showEmptyError = () => {
-    return main.innerHTML = 
-    `
-    <div class="card-conteiner">
-    <img src="./src/img/error.png" >
-        <h1> ¡ Ingrese un Número ! </h1>
-    </div>` ;
-}
-const showError = () => {
-    return main.innerHTML = 
-    `
-    <div class="card-conteiner">
-    <img src="./src/img/catch.png" >
-        <h1> ¡ No Existe ese Pokémon ! </h1>
-    </div>` ;
-}
-const changeUnits = (value) => {
-    return value / 10
-}
 const createCardPokemon = (pokemon) => {
-
     const type = pokemon.types.map( (tipo) => tipo.type.name).join(" / ");
-
     const img = 
     pokemon.sprites.other.dream_world.front_default || 
     pokemon.sprites.other.home.front_default 
@@ -61,21 +30,50 @@ const createCardPokemon = (pokemon) => {
     </section>
     `
 }
+const showEmptyError = () => {
+    return main.innerHTML = 
+    `
+    <div class="card-conteiner">
+    <img src="./src/img/error.png" >
+        <h1> ¡ Ingrese un Número ! </h1>
+    </div>` ;
+}
+const showError = () => {
+    return main.innerHTML = 
+    `
+    <div class="card-conteiner">
+    <img src="./src/img/catch.png" >
+        <h1> ¡ No Existe ese Pokémon ! </h1>
+    </div>` ;
+}
+const changeUnits = (value) => {
+    return value / 10
+}
+const removeCard = () =>{
+    setTimeout(()=>{
+        return main.innerHTML = "";
+    },1500)
+}
 const searchPokemon = async (e) => {
     e.preventDefault();
 
     const idValue = $input.value;
 
     const poke = await getPokemon(idValue)
-    .catch( () => {showError(),$form.reset() } )
+    .catch( () => {
+        showError(),
+        removeCard(),
+        $form.reset() } )
  
     if(!idValue){
-        showEmptyError()
-        return
+        showEmptyError();
+        removeCard()
+        return;
     }
     
-    createCardPokemon(poke)
-    $form.reset()
+    createCardPokemon(poke);
+    $form.reset();
 };
-const init = () => {$form.addEventListener('submit', searchPokemon)} ;
+const init = () => {$form.addEventListener('submit', searchPokemon)};
+
 init();
