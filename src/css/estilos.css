@@ -64,7 +64,7 @@
   transition: .5s ease;
   background-color: var(--amarillo);
 }
-/* Card */
+/* Main */
 .main-container{
   grid-row: 2;
   background-image: 
@@ -74,8 +74,44 @@
     url("../img/fondo-main.jpg");
   background-position: center;
   background-size: cover;
-  background-repeat: no-repeat;
+  background-repeat: no-repeat; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+/* Card */
+.card-container{
+  width: min(400px, 90%);
+  background-color: aliceblue;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3rem;
+  padding: 1rem 
+}
+.card-img-container{
+  background-color: lightblue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+}
+
+.card-img{
+  width: 100px;
+  height: 100px;
+}
+
+.card-name{
+  text-align: center;
+  font-size: 2rem;
+  text-transform: capitalize;
+}
+
+/* Footer */
 .footer-container{
   grid-row: 3;
   background-color: var(--rojo);
@@ -86,4 +122,15 @@
 .media{
   display: flex;
   gap: 2rem;
+}
+
+/* Card cuando no existe el pokemon */
+.card-error-container{
+  background-color: aliceblue;
+  padding: 1rem;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

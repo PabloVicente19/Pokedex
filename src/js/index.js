@@ -1,79 +1,66 @@
-const $form = document.getElementById('form')
-const $input = document.getElementById('input')
-const $card = document.createElement('section')
+const $form = document.getElementById('form');
+const $input = document.getElementById('input');
+const $cardContainer = document.querySelector('.main-container');
 const url = 'https://pokeapi.co/api/v2/pokemon/';
 
+
 const getPokemon = async (id) => {
-    const response = await fetch(url + id)
-    const data = await response.json() 
-    return data;
-};
-const createCardPokemon = (pokemon) => {
-    const type = pokemon.types.map( (tipo) => tipo.type.name).join(" / ");
-    const img = 
-    pokemon.sprites.other.dream_world.front_default || 
-    pokemon.sprites.other.home.front_default 
-
-    main.innerHTML = `
-    <section class="card-conteiner">
-        <div class="img-container"> 
-            <img src=${img}>
-        </div>
-        <h2> Nombre: </h2>
-        <span>${pokemon.name}</span>
-        <h2> Tipo: </h2>
-        <span>${type}</span>
-        <h2> Altura: </h2>
-        <span>${changeUnits(pokemon.height)} Cm</span>
-        <h2> Peso: </h2>
-        <span>${changeUnits(pokemon.weight)} Kg</span>
-    </section>
-    `
-}
-const showEmptyError = () => {
-    return main.innerHTML = 
-    `
-    <div class="card-conteiner">
-    <img src="./src/img/error.png" >
-        <h1> ¡ Ingrese un Número ! </h1>
-    </div>` ;
-}
-const showError = () => {
-    return main.innerHTML = 
-    `
-    <div class="card-conteiner">
-    <img src="./src/img/catch.png" >
-        <h1> ¡ No Existe ese Pokémon ! </h1>
-    </div>` ;
-}
-const changeUnits = (value) => {
-    return value / 10
-}
-const removeCard = () =>{
-    setTimeout(()=>{
-        return main.innerHTML = "";
-    },1500)
-}
-const searchPokemon = async (e) => {
-    e.preventDefault();
-
-    const idValue = $input.value;
-
-    const poke = await getPokemon(idValue)
-    .catch( () => {
-        showError(),
-        removeCard(),
-        $form.reset() } )
- 
-    if(!idValue){
-        showEmptyError();
-        removeCard()
-        return;
+    try {
+        const res = await fetch(url + id);
+        const data = await res.json();
+        return data;
+    } catch  {
+        showError();
     }
-    
-    createCardPokemon(poke);
-    $form.reset();
-};
-const init = () => {$form.addEventListener('submit', searchPokemon)};
+}
 
-init();
+const createCard = async (pokemon) => {
+    const img = pokemon.sprites.other.dream_world.front_default;
+    const {name} = pokemon;
+    return $cardContainer.innerHTML = `
+        <div class="card-container">
+            <div class="card-img-container">
+                <img class="card-img" src="${img}" alt="${name}">
+            </div>
+            <div class="card-name-container">
+            <h2 class="card-name">${name}</h2>
+            </div>
+        </div>`;
+}
+
+const showEmptyError =   () => {
+    return $cardContainer.innerHTML = `
+        <div class="card-conteiner">
+            <img src="./src/img/error.png" >
+            <h2> ¡Ingrese un Número! </h2>
+        </div>`;
+}
+
+const showError = () => {
+    return $cardContainer.innerHTML = `
+        <div class="card-error-container">
+            <img src="./src/img/catch.png" >
+            <h2> ¡No Existe ese Pokémon! </h2>
+        </div>` ;
+}
+
+const searchPokemon = async (e) => {
+    e.preventDefault(e)
+    
+    const idValue = $input.value.trim();
+    const pokemon =   await getPokemon(idValue);
+    
+    if(!idValue){
+        return showEmptyError();
+    }else if(pokemon){
+        createCard(pokemon);
+        return $form.reset();
+    }else{
+        return showError();
+    }
+ 
+}
+
+ const init = () => $form.addEventListener('submit', searchPokemon);
+
+ init();
