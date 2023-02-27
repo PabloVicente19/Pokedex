@@ -58,7 +58,6 @@ const searchPokemon = async (e) => {
     }else{
         return showError();
     }
- 
 }
 
  const init = () => $form.addEventListener('submit', searchPokemon);
