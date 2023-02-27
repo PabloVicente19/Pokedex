@@ -11,13 +11,14 @@
   --dorado: #FFD700;
 }
 .container{
-  max-width: 1300px;
+  max-width: 1200px;
   margin: 0 auto;
   height: 100vh;
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 60px calc(100vh - 120px) 60px;
   place-items: center space-around;
+  background-color: lightcyan;
 }
 .navbar-container{
   padding: .5rem 0rem;
@@ -33,7 +34,7 @@
   align-items: center;
 }
 .navbar-logo img{
-  width: 80px;
+  width: 100%;
 }
 .navbar-form{
   grid-column: 2/3;
@@ -142,6 +143,9 @@
   .navbar-container{
     grid-template-rows: 1fr 1fr;
     padding: .5rem 0rem;
+  }
+  .navbar-logo img{
+    width: 80px;
   }
   .navbar-logo{
     grid-column: 1/3;

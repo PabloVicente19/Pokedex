@@ -49,7 +49,7 @@ const searchPokemon = async (e) => {
     
     const idValue = $input.value.trim();
     const pokemon =   await getPokemon(idValue);
-    
+
     if(!idValue){
         return showEmptyError();
     }else if(pokemon){
