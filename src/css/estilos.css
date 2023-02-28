@@ -112,6 +112,19 @@
   text-transform: capitalize;
 }
 
+.card-types{
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+}
+.card-types-text{
+  text-transform: capitalize;
+  display: flex;
+  gap: 1.5rem;
+  font-weight: bold;
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+}
 /* Footer */
 .footer-container{
   grid-row: 3;

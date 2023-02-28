@@ -4,6 +4,7 @@ const $cardContainer = document.querySelector('.main-container');
 const url = 'https://pokeapi.co/api/v2/pokemon/';
 
 
+
 const getPokemon = async (id) => {
     try {
         const res = await fetch(url + id);
@@ -16,21 +17,27 @@ const getPokemon = async (id) => {
 
 const createCard = async (pokemon) => {
     const img = pokemon.sprites.other.dream_world.front_default;
-    const {name} = pokemon;
+    const {name, types} = pokemon;
     return $cardContainer.innerHTML = `
         <div class="card-container">
-            <div class="card-img-container">
+            <div class="card-img-container" >
                 <img class="card-img" src="${img}" alt="${name}">
             </div>
             <div class="card-name-container">
             <h2 class="card-name">${name}</h2>
             </div>
-        </div>`;
-}
+            <div class"card-types-container">
+                <div class="card-types">
+                    ${types.map(tipo => {
+                        return `<span class= "card-types-text ${tipo.type.name}"> ${tipo.type.name} </span>`
+                    }).join("")}
+                </div>`;
+            }
+
 
 const showEmptyError =   () => {
     return $cardContainer.innerHTML = `
-        <div class="card-conteiner">
+        <div class="card-error-container">
             <img src="./src/img/error.png" >
             <h2> ¡Ingrese un Número! </h2>
         </div>`;
@@ -47,10 +54,10 @@ const showError = () => {
 const searchPokemon = async (e) => {
     e.preventDefault(e)
     
-    const idValue = $input.value.trim();
+    const idValue = $input.value.trim().toLowerCase();
     const pokemon =   await getPokemon(idValue);
 
-    if(!idValue){
+    if(!idValue){p
         return showEmptyError();
     }else if(pokemon){
         createCard(pokemon);
